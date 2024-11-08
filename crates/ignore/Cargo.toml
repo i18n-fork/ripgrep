@@ -32,7 +32,7 @@ default-features = false
 features = ["std", "perf", "syntax", "meta", "nfa", "hybrid", "dfa-onepass"]
 
 [target.'cfg(windows)'.dependencies.winapi-util]
-version = "0.1.2"
+version = "0.1.5"
 
 [dev-dependencies]
 bstr = { version = "1.6.2", default-features = false, features = ["std"] }
