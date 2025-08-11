@@ -94,7 +94,7 @@ Does ripgrep have support for shell auto-completion?
 
 Yes! If you installed ripgrep through a package manager on a Unix system, then
 the shell completion files included in the release archive should have been
-installed for you automatically. If not, you can generate completes using
+installed for you automatically. If not, you can generate completions using
 ripgrep's command line interface.
 
 For **bash**:
@@ -113,13 +113,30 @@ $ mkdir -p "$dir"
 $ rg --generate complete-fish > "$dir/rg.fish"
 ```
 
-For **zsh**:
+For **zsh**, the recommended approach is:
 
-```
+```zsh
 $ dir="$HOME/.zsh-complete"
 $ mkdir -p "$dir"
 $ rg --generate complete-zsh > "$dir/_rg"
 ```
+
+And then add `$HOME/.zsh-complete` to your `fpath` in, e.g., your
+`$HOME/.zshrc` file:
+
+```zsh
+fpath=($HOME/.zsh-complete $fpath)
+```
+
+Or if you'd prefer to load and generate completions at the same time, you can
+add the following to your `$HOME/.zshrc` file:
+
+```zsh
+$ source <(rg --generate complete-zsh)
+```
+
+Note though that while this approach is easier to setup, is generally slower
+than the previous method, and will add more time to loading your shell prompt.
 
 For **PowerShell**, create the completions:
 

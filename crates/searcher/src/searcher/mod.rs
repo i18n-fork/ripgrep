@@ -1004,6 +1004,7 @@ fn slice_has_bom(slice: &[u8]) -> bool {
         None => return false,
         Some((enc, _)) => enc,
     };
+    log::trace!("found byte-order mark (BOM) for encoding {enc:?}");
     [encoding_rs::UTF_16LE, encoding_rs::UTF_16BE, encoding_rs::UTF_8]
         .contains(&enc)
 }
