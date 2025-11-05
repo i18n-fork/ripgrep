@@ -327,12 +327,10 @@ impl TypesBuilder {
         let mut glob_to_selection = vec![];
         let mut build_set = GlobSetBuilder::new();
         for (isel, selection) in self.selections.iter().enumerate() {
-            let def = match self.types.get(selection.name()) {
+            let name = selection.name().to_string();
+            let def = match self.types.get(&name) {
                 Some(def) => def.clone(),
-                None => {
-                    let name = selection.name().to_string();
-                    return Err(Error::UnrecognizedFileType(name));
-                }
+                None => FileTypeDef { globs: vec![format!("*.{name}")], name },
             };
             for (iglob, glob) in def.globs.iter().enumerate() {
                 build_set.add(
