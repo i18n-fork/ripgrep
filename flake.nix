@@ -1,6 +1,4 @@
 {
-  description = cargoToml.package.description;
-
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     rust-overlay.url = "github:oxalica/rust-overlay";
@@ -8,7 +6,12 @@
   };
 
   outputs = { self, nixpkgs, rust-overlay, flake-utils }:
-    flake-utils.lib.eachDefaultSystem (system:
+    let
+      cargoToml = builtins.fromTOML (builtins.readFile ./Cargo.toml);
+    in
+    {
+      description = cargoToml.package.description;
+    } // flake-utils.lib.eachDefaultSystem (system:
       let
         overlays = [ (import rust-overlay) ];
         pkgs = import nixpkgs {
@@ -19,7 +22,6 @@
           cargo = rustVersion;
           rustc = rustVersion;
         };
-        cargoToml = builtins.fromTOML (builtins.readFile ./Cargo.toml);
       in
       {
         packages = {
